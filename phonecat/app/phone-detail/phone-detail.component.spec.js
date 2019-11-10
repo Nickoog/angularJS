@@ -1,7 +1,6 @@
 'use strict';
 
 describe('phoneDetail', function() {
-
     // Load the module that contains the `phoneDetail` component before each test
     beforeEach(module('phoneDetail'));
 
@@ -13,7 +12,11 @@ describe('phoneDetail', function() {
             images: ['image/url1.png', 'image/url2.png']
         };
 
-        beforeEach(inject(function($componentController, _$httpBackend_, $routeParams) {
+        beforeEach(inject(function(
+            $componentController,
+            _$httpBackend_,
+            $routeParams
+        ) {
             $httpBackend = _$httpBackend_;
             $httpBackend.expectGET('phones/xyz.json').respond(xyzPhoneData);
 
@@ -23,12 +26,12 @@ describe('phoneDetail', function() {
         }));
 
         it('should fetch the phone details', function() {
-            expect(ctrl.phone).toBeUndefined();
+            jasmine.addCustomEqualityTester(angular.equals);
+
+            expect(ctrl.phone).toEqual({});
 
             $httpBackend.flush();
             expect(ctrl.phone).toEqual(xyzPhoneData);
         });
-
     });
-
 });
